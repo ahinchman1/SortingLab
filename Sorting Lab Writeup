@@ -1,0 +1,226 @@
+Sorting Lab Write-Up
+Amanda Hinchman and Yiran Xu
+CSC-207
+
+1.  Given that k-1 = 7 and item = 17, we can go through the code:
+
+int i = k-1; // int i = 7
+while ((i > 0) && a[i] > item) { // while (7 > 0) and (37 > 17)
+a[i+1] = a[i]; // since the above is true, then a[8] = 37
+i --; //decrement i to be 6
+} // this condition needs to run again
+    
+    and now we go through the loop again
+    
+    while ((i > 0) && a[i] > item) { // while (6 > 0) and (33 > 17)
+    a[i+1] = a[i]; // a[7] = 33;
+    i--; //decrement i to be 5
+    } //this condition needs to run again
+    
+    for the same idea, the loop continues until the conditions are 
+    no longer satisfied.  For this reason, the last loop seems to 
+    stop at when i = 3;
+    
+    while ((i > 0) && a[i] > item) { // while (3 > 0) and (10 > 17)
+    
+    ^ this condition breaks, so now we go to below the while loop
+    
+    }
+    a[4] = 17; <-- this is where the code seems to stop.
+    
+    The item value is inserted in the appropriate position so that the
+    array can follow in ascending order - while the array at i is greater
+    than item, then all the greater items are moved to the next right 
+    position. 
+    
+
+2. while ((i > 0) && a[i] > item) { // while(7 > 0) and (37 > 40)
+		//whatever is in the while loop
+		//the above condition is not satisfied, so
+		// we skip the while loop.
+	}
+	a[k] = 40;
+	Since there the item given was greater than all the other values in
+	in the given array, the item was inserted at the end of the array.
+	
+3.  Following the same idea, since 2 is the least value of the whole array,
+    then all the values will be moved to the right position before inserting
+    the value of item into the first position.  a[0] = 2 at the end.
+    
+4.  The above code contains the test (i >= 0) to prevent going out of bounds
+    on the array.  For example, if (i = 0) and a[0] > item, then the while loop
+    would run again.  Then, i = -1, which would mean the array would be out of
+    bounds, but the while loop would never run (which prevents the error) since
+    i is not greater than or equal to 0 at that point.
+
+5. The for loop allows the array to be passed through once: within the single 
+	for-loop, then assign some temporary values; item for a[k] and i for (k-1).  
+	Using these consecutive values, time program essentially grabs an element, 
+	and checks if a value is larger than the first. If the value is larger, 
+	then the larger value stays to the right and the value being compared is 
+	placed in a[k] once the values stop being larger.  Otherwise, the values 
+	stay in the same place.  
+6.  After some tests, these were the results:
+	Test 1:  (repeated numbers)
+		input: 1 40 12 4 9 10 15 2 3 4 1 9
+		result: 1 1 2 3 4 4 9 9 10 12 15 40
+    Test 2:  (one number)
+    	input: 4
+    	result: 4
+    Test 3:  (negative number)
+    	input: 4 -2 10 3 7
+    	result: -2 3 4 7 10
+    Test 4:  (zeros)
+    	input: 0 1 0 1 0
+    	result: 0 0 0 1 1
+    Test 5:  (NAN - exception expected)
+    	input: 4 a...
+    	result: exception thrown
+7.
+
+
+8. Initialization: first = 0, last = 12, left = 1, right = 12. The code goes 
+   into the outer while loop because the condition “right >= left” holds (in
+   this case 12 > 1). Since a[12]>a[1](in this case 12<6), the first inner loop
+   continues until right decrements to 11 because at that time the condition 
+   does not hold (a[11]>a[1] does not hold). Therefore, right = 11. The second
+   inner loop continues until left = 2 because the condition a[first]>=a[left] 
+   does not hold (a[0] is 10 and a[2] is 16). Therefore, left = 2. Now since 
+   right is greater than left, the program does the swap. A temporary variable
+   temp is assigned to be a[2] which is 16. Then, a[2]=a[11]=5 and 
+   a[11]=temp=16. Now, the array becomes 
+   {10, 6, 5, 8, 14, 2, 4, 18, 12, 13, 1, 16, 20}. The outer loop continues. 
+   At this point, left = 2 and right = 11. The first inner loop continues 
+   until right = 10 because a[10]=1 < a[0]. The second inner loop continues 
+   until left = 4 because a[4]=14 >a[0]. Since right > left (in this case 
+   10>4), the program does the swap. The array now becomes 
+   {10, 6, 5, 8, 1, 2, 4, 18, 12, 13, 14, 16, 20}. The outer loop continues.
+   At this point, left = 4 and right = 10. The first inner loop continues until
+   right = 6 (because a[6]=4 < a[0]) and the second inner loop continues until 
+   left = 7 because both conditions do not hold (a[7]=18 > a[0] and right is no 
+   longer greater than or equal to left). Since left = 7 and right = 6, the if 
+   statement does not hold. Therefore, the program does not do the swap. Now 
+   the program puts a[0] in its place. The variable temp is set to be a[0]=10.
+   Then a[0] = a[right]=a[6]=4, then a[right]=a[6] is set to be temp which is 
+   10. Therefore, the final array would be 
+   {4, 6, 5, 8, 1, 2, 10, 18, 12, 13, 14, 16, 20}.
+
+9. Suppose an array with ascending order {1, 3, 5, 7, 8, 12}. The 
+   initialization would be: first = 0, last = 5, right = 5, and left = 1. The
+   outer loop holds because at this point right > left. Since the array is 
+   already in an ascending order, the second condition (a[first]<=a[right]) for
+   the first inner loop always holds. Therefore, the first inner loop continues 
+   until right is no longer greater than or equal to left. In this case, 
+   right = 0. The second inner loop will never happen because the condition 
+   right >= left will never hold. The if statement never hold as well because 
+   right = 0 and left = 1. Now the program puts a[first] in its place. The 
+   variable temp is set to be a[first] which is a[0]=1. Then a[first] is set to 
+   be a[right] which is a[0] as well. At last a[right] is set to be temp which 
+   is 1 as well. Therefore, the array that is in ascending order does not 
+   change after the quicksort approach 1.
+
+10. Suppose an array with ascending order {12, 8, 5, 4, 2, 0}. The 
+    initialization would be: first = 0, last = 5, right = 5, and left = 1. The
+    outer loop holds because at this point right > left. Since the array is 
+    already in a descending order, the second condition (a[first]<=a[right]) 
+    for the first inner loop will never hold. Now the program goes to the 
+    second inner loop. Again, since the array is already in a descending order,
+    the second condition (a[first] >=a[left]) for the second inner loop always
+    holds. The second inner loop continues until its first statement does not 
+    hold. At that point, right = 5, left = 6, so the condition right >=left 
+    does not hold. The if statement does not hold as well at this point. Now
+    the program puts a[first] in its place. The variable temp is set to be 
+    a[first] which is a[0]=12. Then a[first] is set to be a[right] which is 
+    a[5]=0. At last a[right] which is a[5] is set to be temp which is 12. 
+    Therefore, the array becomes {0, 8, 5, 4, 2, 12}. I conclude that for any
+    array that is in descending order, the quicksort Approach 1 swaps its first
+    element and its last element.
+
+11. Consider the array {10, 6, 5, 8, 1, 2, 4, 18, 12, 13, 14, 16, 20}. At the 
+    beginning, first = 0, last = 12, left = 1, and right = 12. The first inner
+    array continues until right = 6 because a[0]=10, a[6] = 4, the condition 
+    a[0]<=a[6] does not hold. Similarly, the second inner array continues until 
+    left = 7 because a[0] = 10, a[7]=18, the condition a[0]>a[7] does not hold. 
+    If the swap were done without the test for right > left, the program does 
+    the swap at this point. The variable temp is set to be a[left]=a[7]=18, 
+    a[7] is set to be a[right]=a[6]=4, and then a[6] is set to be temp which is 
+    18. Now, the array becomes {10, 6, 5, 8, 1, 2, 18, 4, 12, 13, 14, 16, 20}. 
+    Now, the program puts a[first] in its place by swapping a[first] with 
+    a[right]. The array eventually becomes {18, 6, 5, 8, 1, 2, 10, 4, 12, 13, 
+    14, 16, 20}, which is not an expected/correct result.
+
+12. Consider the array {1, 2, 3, 4, 5, 6}. Initially, left = 1, right = 5, 
+    first = 0, and last = 5. If the test right >= left were omitted, the first
+    inner loop would continue until the condition a[first] <= a[right] does not
+    hold, which will happen when right = -1. However, in such a case, the 
+    program will result in an outOfBound exception. Consider the array 
+    {6, 5, 4, 3, 2, 1}. Initially, left = 1, right = 5, first = 0, and 
+    last = 5. The program will never go into the first inner loop because 
+    a[first]>=a[right] will never hold. For the second inner loop, however, if 
+    the test right >= left were omitted, it would continue until the condition 
+    a[first] >= a[left] does not hold, which will happen when left = 6. 
+    However, in such a case, the program will result in an outOfBound exception.
+
+13. The program first applies partition to the entire array. Then, after the 
+    first element of an array segment is placed in its appropriate position, 
+    denoted as position P, the program examines if there is more than one 
+    element in the array that is prior to P, and if there is more than one 
+    element in the array that is after P. If either of the case is true, the
+    program applies the partition recursively to each segment of the array.
+
+The husk procedure does the recursion part. Husk is needed because????
+
+14. The recursion happens only when the sub-array has a length of 2 or greater. 
+    Therefore, neither of the following calls will be made if there is only one
+    element in the array piece.
+
+	//recursively apply algorithm to a[first]..a[right-1]
+	//and a[right+1]..a[last], provided these segments contain >= 2 items
+	if (first < right-1)
+		quicksortKernel (a, first, right-1);
+	if (right+1 < last)
+		quicksortKernel (a, right+1, last);
+
+15. We tested the program with several arrays and they all worked just fine – the program 
+    rearranged the array in an ascending order.
+
+16. See SortShell2.
+
+17. The program first randomly selects an index (denoted as “midIndex”) in the 
+    array and then swaps the value of array[first] and the value of 
+    array[midIndex]. The program then uses this new value of array[first] as 
+    the . ,
+    6 +pivot to continue quicksortKernel as in SortShell2.
+If the input array is distributed uniformly at random then there is no difference between always picking an element at a fixed position (for example the middle one as you suggest) or picking an element chosen at random.
+
+If however your input array is not really in random order (which happens to be the case in almost all practical scenarios) then one needs to either "preshufle" the array in order for the elements in it to be placed in random order, or (equivalently) always take a random element as a pivot. This ensures the partitioning phase of quicksort partitions the arrays into sub-arrays of almost equal size and hence that the expected running time remains O(nlogn).
+
+Problem 24
+
+Time Complexity is θ(n). quicksort involves partitioning, and 2 recursive calls. Thus, giving the basic quicksort relation:
+
+T(n) = θ(n) + T(i) + T(n-i-1) = cn+ T(i) + T(n-i-1) ,
+
+where i is the size of the first sub-block after partitioning.
+
+Worst case:
+
+When the pivot is the smallest (or largest) element at partitioning on a block of size n, the result takes θ(n) times. Recurrence Equation: T(1)=1 and T(n)=T(n-1)+cn. Therefore, the order is O(n2)
+
+Best case:
+
+The pivot is in the middle (median) (at each partition step), i.e. after each partitioning, on a block of size n, the result takes n data comparisons and yields two sub-blocks of approximately equal size and the pivot element in the “middle” position. The recurrence equation becomes T(1)=1 and T(n)=2T(n/2)+cn. Thus, the solution is O(nlogn).
+
+Problem 27
+
+Data Size Ascending Data Random Data
+
+10000
+
+20000
+
+40000
+
+80000
+
+160000     
